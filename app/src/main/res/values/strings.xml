@@ -1,0 +1,34 @@
+<resources>
+    <!-- ACCOUNT -->
+    <string name="app_name">Barbershop Reservation</string>
+    <string name="login">Log in</string>
+    <string name="signup">Sign up</string>
+    <string name="create_account">Create an account</string>
+    <string name="name">Name</string>
+    <string name="your_name">Your name</string>
+    <string name="e_mail">E-mail</string>
+    <string name="password">Password</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="finish">Finish</string>
+    <string name="already_have_account">Already have an account?</string>
+    <!-- RESERVATIONS -->
+    <string name="joseph">Joseph</string>
+    <string name="haircut">Haircut</string>
+    <string name="haircut_description">We can it the classic or the new modern way!</string>
+    <string name="beard">Beard</string>
+    <string name="beard_description">We can shave your beard, trim it or shape it!</string>
+    <string name="classic_haircut">Classics haircut</string>
+    <string name="modern_haircut">Modern haircut(fade)</string>
+    <string name="modern_and_beard_trim">Modern haircut + beard trim</string>
+    <string name="classic_and_beard_trim">Classic haircut + beard trim</string>
+    <string name="modern_and_beard_shave">Modern haircut + beard shave</string>
+    <string name="classic_and_beard_shave">Classic haircut + beard shave</string>
+    <string name="beard_shave">Beard shave</string>
+    <string name="beard_trim">Beard trim</string>
+    <string name="head_shave">Head shave</string>
+    <string name="machine_only">Machine only</string>
+    <string name="price">Price: </string>
+    <string name="reservation_successful">Reservation successful!</string>
+    <string name="reservation_failed">Reservation failed, please try again or later.</string>
+    <string name="barbershop_slogan">Get the best for your head and beard!</string>
+</resources>
