@@ -26,21 +26,6 @@ fun LoginButton(
     modifier: Modifier = Modifier
 ) {
     val focusManager = LocalFocusManager.current
-    /*
-    Image(
-        painter = painterResource(id = R.drawable.ic_checkmark),
-        contentDescription = null,
-        modifier = modifier
-            .size(dimensionResource(id = R.dimen.login_button_size))
-            .clip(shape = CircleShape)
-            //.size(MaterialTheme.dimensions.loginButtonSize)
-            .padding(MaterialTheme.spacing.large)
-            .clickable {
-                onClick()
-                focusManager.clearFocus()
-            }
-            .background(color = LightViolet)
-    )*/
 
     Image(
         painter = painterResource(id = R.drawable.ic_checkmark),

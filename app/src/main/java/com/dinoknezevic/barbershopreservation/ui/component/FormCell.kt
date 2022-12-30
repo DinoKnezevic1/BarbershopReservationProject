@@ -55,8 +55,8 @@ fun FormCell(
             //disabledPlaceholderColor = DarkGrey200,
             unfocusedLabelColor = DarkGrey200,
             focusedLabelColor = DarkGrey200,
-            focusedIndicatorColor = Color.White,
-            unfocusedIndicatorColor = Color.White,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
         ),
         modifier = modifier
             //.clip(MaterialTheme.shapes.large)
