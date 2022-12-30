@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 data class Dimensions(
     val formCellRadius: Dp = 28.dp,
     val formCellOffset: Dp = 16.dp,
+    val loginButtonSize: Dp = 52.dp,
     /*
     val default: Dp = 0.dp,
     val extraSmall: Dp = 4.dp,
