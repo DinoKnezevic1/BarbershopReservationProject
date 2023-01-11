@@ -12,12 +12,16 @@
     <string name="finish">Finish</string>
     <string name="already_have_account">Already have an account?</string>
     <!-- RESERVATIONS -->
+    <string name="welcome_sir">Welcome, sir</string>
+    <string name="are_you_ready">Are you ready for your best look?</string>
+    <string name="we_certainly_are"> We certainly are!</string>
+    <string name="book_appointment">Book your appointment</string>
     <string name="joseph">Joseph</string>
     <string name="haircut">Haircut</string>
     <string name="haircut_description">We can it the classic or the new modern way!</string>
     <string name="beard">Beard</string>
     <string name="beard_description">We can shave your beard, trim it or shape it!</string>
-    <string name="classic_haircut">Classics haircut</string>
+    <string name="classic_haircut">Classic haircut</string>
     <string name="modern_haircut">Modern haircut(fade)</string>
     <string name="modern_and_beard_trim">Modern haircut + beard trim</string>
     <string name="classic_and_beard_trim">Classic haircut + beard trim</string>
@@ -31,4 +35,8 @@
     <string name="reservation_successful">Reservation successful!</string>
     <string name="reservation_failed">Reservation failed, please try again or later.</string>
     <string name="barbershop_slogan">Get the best for your head and beard!</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="previous">Previous</string>
+    <string name="home">Home</string>
+    <string name="history">History</string>
 </resources>

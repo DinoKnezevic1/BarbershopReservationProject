@@ -10,6 +10,10 @@ import androidx.compose.ui.unit.dp
 data class Dimensions(
     val formCellRadius: Dp = 28.dp,
     val formCellOffset: Dp = 16.dp,
+    val loginButtonSize: Dp = 52.dp,
+    val loginFieldRadius: Dp = 32.dp,
+    val loginFieldBorder: Dp = 2.dp,
+    val ServiceItemMinHeight:Dp = 64.dp,
     /*
     val default: Dp = 0.dp,
     val extraSmall: Dp = 4.dp,
@@ -20,7 +24,6 @@ data class Dimensions(
 
      */
 )
-
 val LocalDimensions = compositionLocalOf { Dimensions() }
 
 val MaterialTheme.dimensions: Dimensions

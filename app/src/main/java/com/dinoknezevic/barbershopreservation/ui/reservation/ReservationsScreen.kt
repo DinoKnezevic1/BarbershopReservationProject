@@ -1,0 +1,161 @@
+package com.dinoknezevic.barbershopreservation.ui.reservation
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import com.dinoknezevic.barbershopreservation.R
+import com.dinoknezevic.barbershopreservation.mock.BarberMock
+import com.dinoknezevic.barbershopreservation.model.Service
+import com.dinoknezevic.barbershopreservation.ui.component.ServiceItem
+import com.dinoknezevic.barbershopreservation.ui.reservation.mapper.ReservationsScreenMapper
+import com.dinoknezevic.barbershopreservation.ui.reservation.mapper.ReservationsScreenMapperImpl
+import com.dinoknezevic.barbershopreservation.ui.theme.BackgroundDarkViolet
+import com.dinoknezevic.barbershopreservation.ui.theme.LightOrange
+import com.dinoknezevic.barbershopreservation.ui.theme.spacing
+
+const val NUMBER_OF_COLUMNS = 1
+private val reservationsScreenMapper: ReservationsScreenMapper = ReservationsScreenMapperImpl()
+
+val reservationsScreenViewState =
+    reservationsScreenMapper.toReservationsScreenViewState(BarberMock.getServices())
+
+@Composable
+fun ReservationsRoute(
+    onServiceItemClick: () -> Unit
+) {
+    var reservationsScreenViewState by remember { mutableStateOf(reservationsScreenViewState) }
+    ReservationsScreen(
+        reservationsScreenViewState = reservationsScreenViewState,
+        onServiceItemClick = onServiceItemClick
+    )
+}
+
+@Composable
+fun ReservationsScreen(
+    reservationsScreenViewState: ReservationsScreenViewState,
+    modifier: Modifier = Modifier.background(BackgroundDarkViolet),
+    onServiceItemClick: () -> Unit
+) {
+    Column(
+        modifier = modifier
+            .padding(top = MaterialTheme.spacing.medium)
+    ) {
+        Greeting(modifier = modifier)
+        BarberServices(
+            modifier = modifier,
+            barberServicesViewState = reservationsScreenViewState,
+            onServiceItemClick = onServiceItemClick
+        )
+    }
+}
+
+@Composable
+fun BarberServices(
+    modifier: Modifier,
+    barberServicesViewState: ReservationsScreenViewState,
+    onServiceItemClick: () -> Unit
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(NUMBER_OF_COLUMNS),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
+        horizontalArrangement = Arrangement.Center,
+        modifier = modifier
+            .padding(MaterialTheme.spacing.large)
+    ) {
+        items(barberServicesViewState.servicesList) { service ->
+            val serviceItemViewState = Service(
+                id = service.id,
+                type = service.type,
+                name = service.name,
+                description = service.description,
+                price = service.price
+            )
+            ServiceItem(
+                serviceItemViewState = serviceItemViewState,
+                onClick = { onServiceItemClick() }//logic
+                //popup date picker and then time picker, values go to the viewmodel probably
+            )
+        }
+        item {
+            Divider(
+                color = Color.White,
+                thickness = MaterialTheme.spacing.extraSmall,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+        }
+    }
+}
+
+@Composable
+fun Greeting(
+    modifier: Modifier
+) {
+    Row(
+        modifier = modifier
+            .padding(horizontal = MaterialTheme.spacing.large),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = modifier
+                .weight(1f)
+        ) {
+            Image(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_mustache),
+                contentDescription = null,
+                contentScale = ContentScale.Fit,
+            )
+        }
+        Box(
+            modifier = modifier
+                .weight(5f)
+        ) {
+            Text(
+                text = stringResource(id = R.string.barbershop_slogan),
+                style = MaterialTheme.typography.h5,
+                color = LightOrange,
+                textAlign = TextAlign.Center
+            )
+        }
+        Box(
+            modifier = modifier
+                .weight(1f)
+        ) {
+            Image(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_scissors_white),
+                contentDescription = null,
+                contentScale = ContentScale.Fit,
+            )
+        }
+
+    }
+
+}
+
+@Preview
+@Composable
+private fun ReservationsScreenPreview(
+
+) {
+    ReservationsScreen(
+        reservationsScreenViewState = reservationsScreenViewState,
+        onServiceItemClick = { }
+    )
+}

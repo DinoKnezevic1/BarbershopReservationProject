@@ -1,9 +1,6 @@
 package com.dinoknezevic.barbershopreservation.ui.component
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.paddingFrom
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -22,28 +19,28 @@ import com.dinoknezevic.barbershopreservation.ui.theme.dimensions
 import com.dinoknezevic.barbershopreservation.ui.theme.spacing
 
 data class FormCellViewState(
-    val imageUri: Int,
+    val imagePath: Int,
     val placeholder: String
 )
 
 @Composable
 fun FormCell(
+    //on text change proslijedit lambdu?
     formCellViewState: FormCellViewState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onValueChange: (String) -> Unit,
 ) {
     var text by remember { mutableStateOf(TextFieldValue("")) }
     TextField(
         value = text,
         singleLine = true,
-        onValueChange = {
-            text = it
-        },
+        onValueChange = { onValueChange(it.toString()) },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         label = { Text(text = stringResource(id = R.string.your_name)) },
         //placeholder = { Text(text = stringResource(id = R.string.name)) },
         leadingIcon = {
             Icon(
-                painter = painterResource(id = formCellViewState.imageUri),
+                painter = painterResource(id = formCellViewState.imagePath),
                 contentDescription = null,
                 modifier = modifier
                     .padding(start = MaterialTheme.dimensions.formCellOffset)
@@ -58,8 +55,8 @@ fun FormCell(
             //disabledPlaceholderColor = DarkGrey200,
             unfocusedLabelColor = DarkGrey200,
             focusedLabelColor = DarkGrey200,
-            focusedIndicatorColor = Color.White,
-            unfocusedIndicatorColor = Color.White,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
         ),
         modifier = modifier
             //.clip(MaterialTheme.shapes.large)
@@ -69,12 +66,17 @@ fun FormCell(
                     vertical = MaterialTheme.spacing.small
                 )
             )
-
+            .fillMaxWidth()
     )
 }
 
 @Preview
 @Composable
 private fun FormCellPreview() {
-    FormCell(FormCellViewState(R.drawable.ic_user, stringResource(id = R.string.name)))
+    FormCell(FormCellViewState(
+        R.drawable.ic_user,
+        stringResource(id = R.string.name)
+    ),
+        onValueChange = {}
+    )
 }
