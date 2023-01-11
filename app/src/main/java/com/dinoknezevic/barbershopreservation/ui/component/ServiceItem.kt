@@ -19,10 +19,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.dinoknezevic.barbershopreservation.R
+import com.dinoknezevic.barbershopreservation.model.Service
+import com.dinoknezevic.barbershopreservation.model.ServiceType
 import com.dinoknezevic.barbershopreservation.ui.theme.*
 
 data class ServiceItemViewState(
-    val imagePath: Int,
+    val id:Int,
+    val type: ServiceType,
     val name: String,
     val description: String,
     val price: String
@@ -31,14 +34,14 @@ data class ServiceItemViewState(
 @Composable
 fun ServiceItem(
     modifier: Modifier = Modifier,
-    serviceItemViewState: ServiceItemViewState,
+    serviceItemViewState: Service,
     onClick:()->Unit
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .padding(horizontal = MaterialTheme.spacing.large)//vertical only for preview
+            //.padding(horizontal = MaterialTheme.spacing.large)//vertical only for preview
             .fillMaxWidth()
             .background(
                 color = LightGrey,
@@ -49,11 +52,16 @@ fun ServiceItem(
         Box(
             modifier = modifier
                 .weight(2f)
-                .heightIn(min=MaterialTheme.dimensions.ServiceItemMinHeight)
+                .heightIn(min = MaterialTheme.dimensions.ServiceItemMinHeight)
                 .padding(MaterialTheme.spacing.small)
         ) {
             Image(
-                imageVector = ImageVector.vectorResource(id = serviceItemViewState.imagePath),
+                imageVector = when(serviceItemViewState.type){
+                    ServiceType.HAIRCUT->ImageVector.vectorResource(id = R.drawable.ic_haircut)
+                    ServiceType.BEARD -> ImageVector.vectorResource(id=R.drawable.ic_beard)
+                    ServiceType.HAIRCUT_AND_BEARD -> ImageVector.vectorResource(id=R.drawable.ic_haircut_beard)
+                },
+                //imageVector = ImageVector.vectorResource(id = serviceItemViewState.imagePath),
                 contentDescription = null,
                 modifier = modifier
             )
@@ -61,7 +69,7 @@ fun ServiceItem(
         Box(
             modifier = modifier
                 .weight(4f)
-                .heightIn(min=MaterialTheme.dimensions.ServiceItemMinHeight)
+                .heightIn(min = MaterialTheme.dimensions.ServiceItemMinHeight)
                 .padding(MaterialTheme.spacing.small)
         ) {
             ServiceNameDescription(serviceItemViewState)
@@ -83,7 +91,7 @@ fun ServiceItem(
 }
 
 @Composable
-fun ServiceNameDescription(serviceItemViewState: ServiceItemViewState) {
+fun ServiceNameDescription(serviceItemViewState: Service) {
     Column(
         modifier = Modifier,
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraSmall),
@@ -111,13 +119,15 @@ private fun ServiceItemPreview(
 
 ) {
     ServiceItem(
-        serviceItemViewState = ServiceItemViewState(
-            imagePath = R.drawable.ic_haircut,
+        serviceItemViewState = Service(
+            id=1,
+            type=ServiceType.HAIRCUT,
+            //imagePath = R.drawable.ic_haircut,
             name = stringResource(
                 id = R.string.modern_haircut
             ),
             description = "Maaa brtee fade najjaca stvar ikad predobro je vjeruj mi",
             price = "7.65$"
-        ), onClick = {}
-    )
+        )
+    ) {}
 }

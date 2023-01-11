@@ -15,6 +15,7 @@ val LightOrange = Color(0xFFFF9A3E)
 val DarkOrange = Color(0xFFc76b04)
 val SoftRed = Color(0xFFEF4A72)
 val GlowingOrange = Color(0xFFFFDA7A)
+val LightBlue = Color(0xFF5FD1FF)
 
 val BackgroundDarkViolet = Color(0xFF302238)
 
