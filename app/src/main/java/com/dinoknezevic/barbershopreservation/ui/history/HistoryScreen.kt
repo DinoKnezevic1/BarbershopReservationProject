@@ -1,5 +1,7 @@
 package com.dinoknezevic.barbershopreservation.ui.history
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -39,6 +41,7 @@ private val historyScreenMapper: HistoryScreenMapper = HistoryScreenMapperImpl()
 
 val historyScreenViewState = historyScreenMapper.toHistoryViewState(BarberMock.getHistory())
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HistoryRoute(
     
@@ -48,6 +51,7 @@ fun HistoryRoute(
     HistoryScreen(historyViewState = historyViewState)
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HistoryScreen(
     historyViewState: HistoryViewState,
@@ -191,40 +195,7 @@ fun HistoryLabels(
     }
 }
 
-@Composable
-fun UpcomingHistoryTexts(
-    modifier: Modifier = Modifier
-) {
-    Column {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
-                .padding(horizontal = MaterialTheme.spacing.large)
-        ) {
-            Text(
-                text = stringResource(id = R.string.upcoming),
-                fontSize = 20.sp,
-                color = Color.White,
-                textAlign = TextAlign.Center
-            )
-            Text(
-                text = stringResource(id = R.string.previous),
-                fontSize = 20.sp,
-                color = Color.White,
-                textAlign = TextAlign.Center
-            )
-        }
-        Spacer(
-            modifier = modifier
-                .padding(horizontal = MaterialTheme.spacing.large)
-                .fillMaxWidth()
-                .height(2.dp)
-                .background(color = Color.White, shape = RectangleShape)
-        )
-    }
-}
-
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview
 @Composable
 private fun HistoryScreenPreview(

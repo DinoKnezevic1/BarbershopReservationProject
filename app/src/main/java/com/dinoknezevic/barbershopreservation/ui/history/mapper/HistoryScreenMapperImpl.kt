@@ -10,7 +10,9 @@ class HistoryScreenMapperImpl : HistoryScreenMapper {
     override fun toHistoryViewState(reservations: List<ReservationDetails>): HistoryViewState {
         return HistoryViewState(
             reservations.map {
-                HistoryReservationViewState(
+                ReservationDetails(
+                    id=it.id,
+                    userId = it.userId,
                     name = it.name,
                     startTime = it.startTime,
                     endTime = it.endTime,

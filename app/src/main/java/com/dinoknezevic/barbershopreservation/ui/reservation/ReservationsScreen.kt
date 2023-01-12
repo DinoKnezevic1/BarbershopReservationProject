@@ -1,11 +1,14 @@
 package com.dinoknezevic.barbershopreservation.ui.reservation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -19,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dinoknezevic.barbershopreservation.R
 import com.dinoknezevic.barbershopreservation.mock.BarberMock
 import com.dinoknezevic.barbershopreservation.model.Service
@@ -28,6 +32,11 @@ import com.dinoknezevic.barbershopreservation.ui.reservation.mapper.Reservations
 import com.dinoknezevic.barbershopreservation.ui.theme.BackgroundDarkViolet
 import com.dinoknezevic.barbershopreservation.ui.theme.LightOrange
 import com.dinoknezevic.barbershopreservation.ui.theme.spacing
+import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.datetime.date.datepicker
+import com.vanpra.composematerialdialogs.rememberMaterialDialogState
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 const val NUMBER_OF_COLUMNS = 1
 private val reservationsScreenMapper: ReservationsScreenMapper = ReservationsScreenMapperImpl()
@@ -37,14 +46,35 @@ val reservationsScreenViewState =
 
 @Composable
 fun ReservationsRoute(
+    //viewModel: ReservationViewModel,
     onServiceItemClick: () -> Unit
 ) {
+    //val reservationsScreenViewState: ReservationsScreenViewState by viewModel.reservationsScreenViewState.collectAsState()
     var reservationsScreenViewState by remember { mutableStateOf(reservationsScreenViewState) }
     ReservationsScreen(
         reservationsScreenViewState = reservationsScreenViewState,
-        onServiceItemClick = onServiceItemClick
+        onServiceItemClick = onServiceItemClick//pokrece se nes
     )
 }
+
+/*
+@Composable
+fun FavoritesRoute(
+    viewModel: FavoritesViewModel,
+    onNavigateToMovieDetails: (String) -> Unit
+) {
+    val favoritesViewState: FavoritesViewState by viewModel.favoritesViewState.collectAsState()
+
+    FavoritesScreen(
+        favoritesViewState,
+        onNavigateToMovieDetails,
+        onFavoriteButtonClick = {
+            viewModel.toggleFavorite(it)
+        }
+    )
+}
+*/
+
 
 @Composable
 fun ReservationsScreen(
@@ -63,6 +93,59 @@ fun ReservationsScreen(
             onServiceItemClick = onServiceItemClick
         )
     }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun DatePickerPopup(
+
+) {
+    val dateDialogState = rememberMaterialDialogState()
+    var pickedDate by remember { mutableStateOf(LocalDate.now()) }
+    val formattedDate by remember {
+        derivedStateOf {
+            DateTimeFormatter
+                .ofPattern("MM dd yyyy")
+                .format(pickedDate)
+        }
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        //not needed only need dateDialogState.show inside onClick for item
+        Button(onClick = {
+            dateDialogState.show()
+        }) {
+            Text(text = "Pick date")
+        }
+        Text(text = formattedDate)
+    }
+    MaterialDialog(
+        dialogState = dateDialogState,
+        buttons = {
+            positiveButton(text = "Ok") { }
+            negativeButton(text = "Cancel")
+        }
+    ) {
+        datepicker(
+            initialDate = LocalDate.now(),
+            title = "Pick a date",
+            allowedDateValidator = {
+                it.dayOfMonth % 2 == 1
+            }
+        ) {
+            pickedDate = it
+        }
+    }
+}
+@RequiresApi(Build.VERSION_CODES.O)
+@Preview
+@Composable
+private fun DateTest(){
+    DatePickerPopup()
 }
 
 @Composable
@@ -89,7 +172,7 @@ fun BarberServices(
             ServiceItem(
                 serviceItemViewState = serviceItemViewState,
                 onClick = { onServiceItemClick() }//logic
-                //popup date picker and then time picker, values go to the viewmodel probably
+                //popup date picker and then time picker, values go to the view model probably
             )
         }
         item {

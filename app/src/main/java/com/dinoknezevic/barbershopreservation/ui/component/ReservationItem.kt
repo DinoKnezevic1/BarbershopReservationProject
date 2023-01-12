@@ -1,5 +1,7 @@
 package com.dinoknezevic.barbershopreservation.ui.component
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,6 +34,7 @@ data class ReservationItemViewState(
     val reservationDate: LocalDate
 )
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ReservationItem(
     reservationItemViewState: ReservationItemViewState,
@@ -95,6 +98,7 @@ fun ReservationItem(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview
 @Composable
 private fun ReservationItemPreview(
