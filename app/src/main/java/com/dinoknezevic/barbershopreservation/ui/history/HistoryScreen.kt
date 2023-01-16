@@ -13,16 +13,13 @@ import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -44,7 +41,7 @@ val historyScreenViewState = historyScreenMapper.toHistoryViewState(BarberMock.g
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HistoryRoute(
-    
+    viewModel: HistoryViewModel
 ){
     var historyViewState by remember { mutableStateOf(historyScreenViewState) }
 
@@ -55,7 +52,7 @@ fun HistoryRoute(
 @Composable
 fun HistoryScreen(
     historyViewState: HistoryViewState,
-    modifier: Modifier = Modifier.background(BackgroundDarkViolet),//nece bit potrebno kad dode main screen
+    modifier: Modifier = Modifier.background(BackgroundDarkViolet),
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(NUMBER_OF_COLUMNS),

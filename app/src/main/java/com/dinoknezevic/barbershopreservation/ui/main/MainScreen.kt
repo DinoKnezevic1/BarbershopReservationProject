@@ -1,5 +1,7 @@
 package com.dinoknezevic.barbershopreservation.ui.main
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -21,15 +23,19 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.dinoknezevic.barbershopreservation.R
-import com.dinoknezevic.barbershopreservation.navigation.HISTORY_ROUTE
-import com.dinoknezevic.barbershopreservation.navigation.HOME_ROUTE
-import com.dinoknezevic.barbershopreservation.navigation.NavigationItem
-import com.dinoknezevic.barbershopreservation.navigation.SERVICE_ID_KEY
+import com.dinoknezevic.barbershopreservation.navigation.*
 import com.dinoknezevic.barbershopreservation.ui.history.HistoryRoute
+import com.dinoknezevic.barbershopreservation.ui.history.HistoryViewModel
 import com.dinoknezevic.barbershopreservation.ui.home.HomeRoute
+import com.dinoknezevic.barbershopreservation.ui.pick.PickScreenRoute
+import com.dinoknezevic.barbershopreservation.ui.pick.PickViewModel
+import com.dinoknezevic.barbershopreservation.ui.reservation.ReservationViewModel
 import com.dinoknezevic.barbershopreservation.ui.reservation.ReservationsRoute
 import com.dinoknezevic.barbershopreservation.ui.theme.spacing
+import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.parametersOf
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
@@ -37,10 +43,14 @@ fun MainScreen() {
     val showBottomBar by remember {
         derivedStateOf {
             navBackStackEntry?.destination?.route == HOME_ROUTE ||
-                    navBackStackEntry?.destination?.route == HISTORY_ROUTE
+                    navBackStackEntry?.destination?.route == HISTORY_ROUTE //||
+            //navBackStackEntry?.destination?.route == RESERVATIONS_ROUTE
         }
     }
 
+    val historyViewModel = getViewModel<HistoryViewModel>()
+    val reservationViewModel = getViewModel<ReservationViewModel>()
+    //val pickViewModel = getViewModel<PickViewModel>()
     val showBackIcon = !showBottomBar
 
     Scaffold(
@@ -87,14 +97,26 @@ fun MainScreen() {
                     )
                 }
                 composable(NavigationItem.HistoryDestination.route) {
-                    HistoryRoute()
+                    HistoryRoute(viewModel = historyViewModel)
                 }
                 composable(
                     route = NavigationItem.ReservationsDestination.route,
                     arguments = listOf(navArgument(SERVICE_ID_KEY) { type = NavType.IntType }),
                 ) {
-                    ReservationsRoute(onServiceItemClick = {})
+                    ReservationsRoute(
+                        viewModel = reservationViewModel,
+                        onNavigateToPick = { navController.navigate(it) })
                 }
+                composable(
+                    route = NavigationItem.DateTimePickDestination.route,
+                    arguments = listOf(navArgument(PICK_SERVICE_ID_KEY) { type = NavType.IntType })
+                ) {
+                    val serviceId = it.arguments?.getInt(PICK_SERVICE_ID_KEY)
+                    val viewModel = getViewModel<PickViewModel>(parameters = { parametersOf(serviceId) })
+                    PickScreenRoute(viewModel)
+                    //PickScreenRoute(onServiceItemClick = { }, viewModel = pickViewModel)
+                }
+
             }
         }
     }

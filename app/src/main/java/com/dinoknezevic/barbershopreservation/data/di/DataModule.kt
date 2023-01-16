@@ -11,9 +11,10 @@ val dataModule = module {
         BarbershopRepositoryImpl(
             barberService = get(),
             serviceDao = get(),
-            reservationService=get(),
-            reservationDao=get(),
-            bgDispatcher = Dispatchers.IO
+            timeSlotDao = get(),
+            timeSlotService = get(),
+            bgDispatcher = Dispatchers.IO,
+            dbFirebase = get()
         )
     }
 }

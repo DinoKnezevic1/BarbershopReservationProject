@@ -20,6 +20,9 @@ val databaseModule = module {
     fun provideServiceDao(database: BarbershopDatabase) = database.serviceDao()
     single { provideServiceDao(get()) }
 
-    fun provideReservationDao(database: BarbershopDatabase) = database.reservationDao()
-    single { provideReservationDao(get()) }
+    fun provideTimeSlotDao(database: BarbershopDatabase)=database.timeSlotDao()
+    single { provideTimeSlotDao(get()) }
+
+    //fun provideReservationDao(database: BarbershopDatabase) = database.reservationDao()
+    //single { provideReservationDao(get()) }
 }

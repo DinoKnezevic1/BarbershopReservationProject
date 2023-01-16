@@ -15,7 +15,7 @@ interface ReservationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertReservation(reservation: DbReservation)
 
-    @Query("DELETE FROM reservations WHERE id = :reservationId")
+    @Query("DELETE FROM reservations WHERE reservationId = :reservationId")
     fun deleteService(reservationId: Int)
 }
 

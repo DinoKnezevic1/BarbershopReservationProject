@@ -11,7 +11,8 @@ val reservationModule = module {
     viewModel {
         ReservationViewModel(
             barbershopRepository = get(),
-            reservationMapper = get()
+            reservationMapper = get(),
+            //dbFirebase = get()
         )
     }
 

@@ -1,9 +1,6 @@
 package com.dinoknezevic.barbershopreservation.ui.history.mapper
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.setValue
 import com.dinoknezevic.barbershopreservation.model.ReservationDetails
-import com.dinoknezevic.barbershopreservation.ui.history.HistoryReservationViewState
 import com.dinoknezevic.barbershopreservation.ui.history.HistoryViewState
 
 class HistoryScreenMapperImpl : HistoryScreenMapper {
@@ -11,7 +8,7 @@ class HistoryScreenMapperImpl : HistoryScreenMapper {
         return HistoryViewState(
             reservations.map {
                 ReservationDetails(
-                    id=it.id,
+                    reservationId=it.reservationId,
                     userId = it.userId,
                     name = it.name,
                     startTime = it.startTime,

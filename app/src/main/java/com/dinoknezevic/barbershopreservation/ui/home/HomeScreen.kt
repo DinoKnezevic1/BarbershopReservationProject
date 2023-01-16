@@ -21,6 +21,10 @@ import androidx.compose.ui.unit.sp
 import com.dinoknezevic.barbershopreservation.R
 import com.dinoknezevic.barbershopreservation.navigation.NavigationItem
 import com.dinoknezevic.barbershopreservation.ui.theme.*
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestore.getInstance
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 const val SERVICE_ID = 9999
 

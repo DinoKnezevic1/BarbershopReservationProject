@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "285279334525",
+    "project_id": "barbershopreservation",
+    "storage_bucket": "barbershopreservation.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:285279334525:android:326d1cb9f4afb820f90114",
+        "android_client_info": {
+          "package_name": "com.dinoknezevic.barbershopreservation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "285279334525-sfa7b9hd9lqk1i0qr8rlj0u27ad5u06h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1gcDBhz9c5GEyWkQOoBYef7LwN3QUtk8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "285279334525-sfa7b9hd9lqk1i0qr8rlj0u27ad5u06h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

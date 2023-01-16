@@ -10,6 +10,7 @@ class HistoryViewModel(
     private val barbershopRepository: BarbershopRepository,
     private val historyMapper: HistoryScreenMapper,
 ) : ViewModel() {
+
     /*
     val favoritesViewState: StateFlow<FavoritesViewState> =
         movieRepository.favoriteMovies()

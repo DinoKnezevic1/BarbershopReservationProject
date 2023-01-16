@@ -7,7 +7,7 @@ import com.dinoknezevic.barbershopreservation.model.ServiceType
 
 @Entity(tableName = "services")
 data class DbService(
-    @PrimaryKey val id: Int,
+    @PrimaryKey val serviceId: Int,
     @ColumnInfo(name = "type") val type: ServiceType,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "description") val description: String,

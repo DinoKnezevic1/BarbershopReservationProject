@@ -1,7 +1,10 @@
 package com.dinoknezevic.barbershopreservation.model
 
+import com.google.firebase.firestore.IgnoreExtraProperties
+
+@IgnoreExtraProperties
 data class Service(
-    val id: Int,
+    val serviceId: Int,
     val type: ServiceType,
     val name: String,
     val description: String,

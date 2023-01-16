@@ -8,7 +8,7 @@ class ReservationsScreenMapperImpl : ReservationsScreenMapper {
         return ReservationsScreenViewState(
             services.map {
                 Service(
-                    id = it.id,
+                    serviceId = it.serviceId,
                     type = it.type,
                     name = it.name,
                     description = it.description,

@@ -22,10 +22,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.ui.window.DialogProperties
 import com.dinoknezevic.barbershopreservation.R
 import com.dinoknezevic.barbershopreservation.mock.BarberMock
 import com.dinoknezevic.barbershopreservation.model.Service
+import com.dinoknezevic.barbershopreservation.navigation.NavigationItem
 import com.dinoknezevic.barbershopreservation.ui.component.ServiceItem
 import com.dinoknezevic.barbershopreservation.ui.reservation.mapper.ReservationsScreenMapper
 import com.dinoknezevic.barbershopreservation.ui.reservation.mapper.ReservationsScreenMapperImpl
@@ -44,43 +45,27 @@ private val reservationsScreenMapper: ReservationsScreenMapper = ReservationsScr
 val reservationsScreenViewState =
     reservationsScreenMapper.toReservationsScreenViewState(BarberMock.getServices())
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ReservationsRoute(
-    //viewModel: ReservationViewModel,
-    onServiceItemClick: () -> Unit
+    viewModel: ReservationViewModel,
+    onNavigateToPick: (String) -> Unit
 ) {
-    //val reservationsScreenViewState: ReservationsScreenViewState by viewModel.reservationsScreenViewState.collectAsState()
-    var reservationsScreenViewState by remember { mutableStateOf(reservationsScreenViewState) }
+    val reservationsScreenViewState: ReservationsScreenViewState by viewModel.reservationsScreenViewState.collectAsState()
+    //var reservationsScreenViewState by remember { mutableStateOf(reservationsScreenViewState) }
+    //viewModel.populateServices()
     ReservationsScreen(
         reservationsScreenViewState = reservationsScreenViewState,
-        onServiceItemClick = onServiceItemClick//pokrece se nes
+        onNavigateToPick = onNavigateToPick,
     )
 }
 
-/*
-@Composable
-fun FavoritesRoute(
-    viewModel: FavoritesViewModel,
-    onNavigateToMovieDetails: (String) -> Unit
-) {
-    val favoritesViewState: FavoritesViewState by viewModel.favoritesViewState.collectAsState()
-
-    FavoritesScreen(
-        favoritesViewState,
-        onNavigateToMovieDetails,
-        onFavoriteButtonClick = {
-            viewModel.toggleFavorite(it)
-        }
-    )
-}
-*/
-
-
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ReservationsScreen(
     reservationsScreenViewState: ReservationsScreenViewState,
     modifier: Modifier = Modifier.background(BackgroundDarkViolet),
-    onServiceItemClick: () -> Unit
+    onNavigateToPick: (String) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -90,7 +75,7 @@ fun ReservationsScreen(
         BarberServices(
             modifier = modifier,
             barberServicesViewState = reservationsScreenViewState,
-            onServiceItemClick = onServiceItemClick
+            onNavigateToPick = onNavigateToPick,
         )
     }
 }
@@ -133,26 +118,18 @@ fun DatePickerPopup(
         datepicker(
             initialDate = LocalDate.now(),
             title = "Pick a date",
-            allowedDateValidator = {
-                it.dayOfMonth % 2 == 1
-            }
         ) {
             pickedDate = it
         }
     }
 }
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview
-@Composable
-private fun DateTest(){
-    DatePickerPopup()
-}
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun BarberServices(
     modifier: Modifier,
     barberServicesViewState: ReservationsScreenViewState,
-    onServiceItemClick: () -> Unit
+    onNavigateToPick: (String) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(NUMBER_OF_COLUMNS),
@@ -161,9 +138,10 @@ fun BarberServices(
         modifier = modifier
             .padding(MaterialTheme.spacing.large)
     ) {
+
         items(barberServicesViewState.servicesList) { service ->
             val serviceItemViewState = Service(
-                id = service.id,
+                serviceId = service.serviceId,
                 type = service.type,
                 name = service.name,
                 description = service.description,
@@ -171,8 +149,13 @@ fun BarberServices(
             )
             ServiceItem(
                 serviceItemViewState = serviceItemViewState,
-                onClick = { onServiceItemClick() }//logic
-                //popup date picker and then time picker, values go to the view model probably
+                onClick = {
+                    onNavigateToPick(
+                        NavigationItem.DateTimePickDestination.createNavigationRoute(
+                            serviceItemViewState.serviceId
+                        )
+                    )
+                },
             )
         }
         item {
@@ -232,6 +215,7 @@ fun Greeting(
 
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview
 @Composable
 private fun ReservationsScreenPreview(
@@ -239,6 +223,6 @@ private fun ReservationsScreenPreview(
 ) {
     ReservationsScreen(
         reservationsScreenViewState = reservationsScreenViewState,
-        onServiceItemClick = { }
+        onNavigateToPick = { }
     )
 }
