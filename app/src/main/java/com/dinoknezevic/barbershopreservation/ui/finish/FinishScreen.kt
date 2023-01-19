@@ -12,9 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import androidx.navigation.NavHost
 import com.dinoknezevic.barbershopreservation.mock.BarberMock
 import com.dinoknezevic.barbershopreservation.model.TimeSlot
+import com.dinoknezevic.barbershopreservation.navigation.HOME_ROUTE
 import com.dinoknezevic.barbershopreservation.navigation.NavigationItem
 import com.dinoknezevic.barbershopreservation.ui.component.TimeSlotCell
 import com.dinoknezevic.barbershopreservation.ui.theme.spacing
@@ -25,6 +27,7 @@ const val NUMBER_OF_COLUMNS = 1
 @Composable
 fun FinishScreenRoute(
     viewModel: FinishViewModel,
+    navController: NavController
 ) {
     val finishScreenViewState: FinishScreenViewState by viewModel.finishScreenViewState.collectAsState()
     FinishScreen(
@@ -32,7 +35,8 @@ fun FinishScreenRoute(
         onCellClick = {
             viewModel.createReservation(it)
 
-        }
+        },
+        navController = navController
     )
 }
 
@@ -41,7 +45,8 @@ fun FinishScreenRoute(
 fun FinishScreen(
     finishScreenViewState: FinishScreenViewState,
     modifier: Modifier = Modifier,
-    onCellClick: (TimeSlot) -> Unit
+    onCellClick: (TimeSlot) -> Unit,
+    navController: NavController
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(NUMBER_OF_COLUMNS),
@@ -80,7 +85,8 @@ fun FinishScreen(
                     endTime = timeSlot.endTime,
                     name = pickedServiceName,
                 )
-                onCellClick(pickedTimeSlotViewState)//predaje se viewState da ide booking
+                onCellClick(pickedTimeSlotViewState)
+                navController.navigate(HOME_ROUTE)
             })
         }
     }

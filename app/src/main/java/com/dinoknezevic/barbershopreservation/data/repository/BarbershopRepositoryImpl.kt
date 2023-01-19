@@ -136,7 +136,7 @@ class BarbershopRepositoryImpl(
     }
 
     override fun timeSlots(currentDate: Long): Flow<List<TimeSlot>> = timeSlotsCurrentDay(currentDate)
-
+    private val userIdAuth = FirebaseAuth.getInstance().currentUser!!.uid
     private fun userTimeSlots(userId: String): Flow<List<TimeSlot>>{
         val timeSlotsList = flow<List<TimeSlot>> {
             if (checkInternet()){
@@ -170,11 +170,20 @@ class BarbershopRepositoryImpl(
 
 
     override suspend fun bookTimeSlot(timeSlot: TimeSlot) {
-        timeSlotService.insertTimeSlot(timeSlot)
+        val timeSlotUserInfo= TimeSlot(
+            timeSlotId = timeSlot.timeSlotId,
+            userId = userIdAuth,
+            date = timeSlot.date,
+            isAvailable = timeSlot.isAvailable!!,
+            startTime = timeSlot.startTime,
+            endTime = timeSlot.endTime,
+            name =timeSlot.name,
+        )
+        timeSlotService.insertTimeSlot(timeSlotUserInfo)
         timeSlotDao.insertTimeSlot(
             DbTimeSlot(
                 timeSlotId = timeSlot.timeSlotId,
-                userId = timeSlot.userId,
+                userId = userIdAuth,
                 date = timeSlot.date,
                 isAvailable = timeSlot.isAvailable!!,
                 startTime = timeSlot.startTime,

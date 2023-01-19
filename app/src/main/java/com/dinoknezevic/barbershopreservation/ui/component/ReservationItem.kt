@@ -67,6 +67,7 @@ fun ReservationItem(
         Text(
             text = reservationItemViewState.name,
             style = MaterialTheme.typography.h6,
+            textAlign=TextAlign.Center,
             modifier = modifier
                 .padding(horizontal = MaterialTheme.spacing.extraSmall)
         )

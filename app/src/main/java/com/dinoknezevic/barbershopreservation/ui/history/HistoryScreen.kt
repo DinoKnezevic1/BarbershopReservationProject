@@ -64,7 +64,8 @@ fun HistoryScreen(
         columns = GridCells.Fixed(NUMBER_OF_COLUMNS),
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalArrangement = Arrangement.Center,
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxHeight(),//works?!
     ) {
         item {
             Image(

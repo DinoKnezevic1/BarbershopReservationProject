@@ -1,11 +1,10 @@
 package com.dinoknezevic.barbershopreservation.ui.history
 
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dinoknezevic.barbershopreservation.data.repository.BarbershopRepository
 import com.dinoknezevic.barbershopreservation.ui.history.mapper.HistoryScreenMapper
-import com.dinoknezevic.barbershopreservation.ui.reservation.mapper.ReservationsScreenMapper
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -19,9 +18,9 @@ class HistoryViewModel(
 ) : ViewModel() {
 
     val userId = -1
-
+    private val userIdAuth = FirebaseAuth.getInstance().currentUser!!.uid
     val historyViewState: StateFlow<HistoryViewState> =
-        barbershopRepository.timeSlotsHistory(userId.toString())
+        barbershopRepository.timeSlotsHistory(userIdAuth)
             .map {
                 historyMapper.toHistoryViewState(it)
             }.stateIn(

@@ -19,6 +19,8 @@ const val FINISH_PICK_PICKED_DATE_KEY = "finishPickedDate"
 const val FINISH_ROUTE_WITH_PARAMS =
     "$FINISH_ROUTE/{$FINISH_PICK_SERVICE_ID_KEY}/{$FINISH_PICK_PICKED_DATE_KEY}"
 
+const val LOGIN_ROUTE = "Login"
+
 sealed class NavigationItem(
     override val route: String,
     val selectedIconId: Int,
@@ -38,6 +40,10 @@ sealed class NavigationItem(
         unselectedIconId = R.drawable.ic_history_outlined,
         labelId = R.string.history,
     )
+
+    object LoginDestination:BarbershopReservationDestination(LOGIN_ROUTE){
+        fun createNavigationRoute():String= LOGIN_ROUTE
+    }
 
     object ReservationsDestination :
         BarbershopReservationDestination(SERVICE_RESERVATION_ROUTE_WITH_PARAMS) {

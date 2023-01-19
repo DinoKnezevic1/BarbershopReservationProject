@@ -29,6 +29,7 @@ import com.dinoknezevic.barbershopreservation.ui.finish.FinishViewModel
 import com.dinoknezevic.barbershopreservation.ui.history.HistoryRoute
 import com.dinoknezevic.barbershopreservation.ui.history.HistoryViewModel
 import com.dinoknezevic.barbershopreservation.ui.home.HomeRoute
+import com.dinoknezevic.barbershopreservation.ui.login.LoginRoute
 import com.dinoknezevic.barbershopreservation.ui.pick.PickScreenRoute
 import com.dinoknezevic.barbershopreservation.ui.pick.PickViewModel
 import com.dinoknezevic.barbershopreservation.ui.reservation.ReservationViewModel
@@ -87,7 +88,8 @@ fun MainScreen() {
         ) {
             NavHost(
                 navController = navController,
-                startDestination = NavigationItem.HomeDestination.route,
+                startDestination = NavigationItem.LoginDestination.route,
+                //startDestination = NavigationItem.HomeDestination.route,
                 modifier = Modifier
                     .padding(padding)
             ) {
@@ -98,6 +100,9 @@ fun MainScreen() {
                 }
                 composable(NavigationItem.HistoryDestination.route) {
                     HistoryRoute(viewModel = historyViewModel)
+                }
+                composable(NavigationItem.LoginDestination.route){
+                    LoginRoute(navController = navController)
                 }
                 composable(
                     route = NavigationItem.ReservationsDestination.route,
@@ -130,7 +135,7 @@ fun MainScreen() {
                     val viewModel = getViewModel<FinishViewModel>(parameters = {
                         parametersOf(serviceId,pickedDate)
                     })
-                    FinishScreenRoute(viewModel = viewModel)
+                    FinishScreenRoute(viewModel = viewModel,navController)
                 }
 
             }
