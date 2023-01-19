@@ -1,5 +1,6 @@
 package com.dinoknezevic.barbershopreservation.ui.finish
 
+import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
@@ -14,11 +15,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavHost
+import com.dinoknezevic.barbershopreservation.ContextProvider
 import com.dinoknezevic.barbershopreservation.mock.BarberMock
 import com.dinoknezevic.barbershopreservation.model.TimeSlot
 import com.dinoknezevic.barbershopreservation.navigation.HOME_ROUTE
 import com.dinoknezevic.barbershopreservation.navigation.NavigationItem
 import com.dinoknezevic.barbershopreservation.ui.component.TimeSlotCell
+import com.dinoknezevic.barbershopreservation.ui.main.MainActivity
 import com.dinoknezevic.barbershopreservation.ui.theme.spacing
 
 const val NUMBER_OF_COLUMNS = 1
@@ -34,7 +37,10 @@ fun FinishScreenRoute(
         finishScreenViewState = finishScreenViewState,
         onCellClick = {
             viewModel.createReservation(it)
-
+            val intent = Intent(ContextProvider.getContext(), MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            ContextProvider.getContext().startActivity(intent)
         },
         navController = navController
     )

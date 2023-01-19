@@ -1,12 +1,16 @@
 package com.dinoknezevic.barbershopreservation.data.network
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.viewModelScope
 import com.dinoknezevic.barbershopreservation.data.network.model.TimeSlotResponse
 import com.dinoknezevic.barbershopreservation.mock.BarberMock
 import com.dinoknezevic.barbershopreservation.model.TimeSlot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.security.SecureRandom
@@ -100,5 +104,7 @@ class TimeSlotServiceImpl(
         }
         return TimeSlotResponse(timeSlotsList)
     }
+
+
 
 }

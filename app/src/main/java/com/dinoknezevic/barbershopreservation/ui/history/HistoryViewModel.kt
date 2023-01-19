@@ -17,7 +17,6 @@ class HistoryViewModel(
     private val historyMapper: HistoryScreenMapper,
 ) : ViewModel() {
 
-    val userId = -1
     private val userIdAuth = FirebaseAuth.getInstance().currentUser!!.uid
     val historyViewState: StateFlow<HistoryViewState> =
         barbershopRepository.timeSlotsHistory(userIdAuth)
