@@ -89,7 +89,7 @@ private fun TimeSlotCellPreview(
             startTime = LocalTime.now().toString(),
             endTime = LocalTime.now().plusMinutes(45).toString(),
             timeSlotId = 1,
-            userId = 1,
+            userId = "1",
             date = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
             isAvailable = true,
             name = "Classic Haircut",

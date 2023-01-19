@@ -24,6 +24,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.dinoknezevic.barbershopreservation.R
 import com.dinoknezevic.barbershopreservation.navigation.*
+import com.dinoknezevic.barbershopreservation.ui.finish.FinishScreenRoute
+import com.dinoknezevic.barbershopreservation.ui.finish.FinishViewModel
 import com.dinoknezevic.barbershopreservation.ui.history.HistoryRoute
 import com.dinoknezevic.barbershopreservation.ui.history.HistoryViewModel
 import com.dinoknezevic.barbershopreservation.ui.home.HomeRoute
@@ -43,14 +45,12 @@ fun MainScreen() {
     val showBottomBar by remember {
         derivedStateOf {
             navBackStackEntry?.destination?.route == HOME_ROUTE ||
-                    navBackStackEntry?.destination?.route == HISTORY_ROUTE //||
-            //navBackStackEntry?.destination?.route == RESERVATIONS_ROUTE
+                    navBackStackEntry?.destination?.route == HISTORY_ROUTE
         }
     }
 
     val historyViewModel = getViewModel<HistoryViewModel>()
     val reservationViewModel = getViewModel<ReservationViewModel>()
-    //val pickViewModel = getViewModel<PickViewModel>()
     val showBackIcon = !showBottomBar
 
     Scaffold(
@@ -110,11 +110,27 @@ fun MainScreen() {
                 composable(
                     route = NavigationItem.DateTimePickDestination.route,
                     arguments = listOf(navArgument(PICK_SERVICE_ID_KEY) { type = NavType.IntType })
-                ) {
-                    val serviceId = it.arguments?.getInt(PICK_SERVICE_ID_KEY)
-                    val viewModel = getViewModel<PickViewModel>(parameters = { parametersOf(serviceId) })
-                    PickScreenRoute(viewModel)
-                    //PickScreenRoute(onServiceItemClick = { }, viewModel = pickViewModel)
+                ) {navBackStackEntry->
+                    val serviceId = navBackStackEntry.arguments?.getInt(PICK_SERVICE_ID_KEY)
+                    val viewModel =
+                        getViewModel<PickViewModel>(parameters = { parametersOf(serviceId) })
+                    PickScreenRoute(
+                        viewModel = viewModel,
+                        onNavigateToFinish = { navController.navigate(it) }
+                    )
+                }
+                composable(
+                    route = NavigationItem.FinishDestination.route,
+                    arguments = listOf(navArgument(FINISH_PICK_SERVICE_ID_KEY){type = NavType.IntType},
+                        navArgument(FINISH_PICK_PICKED_DATE_KEY){type=NavType.LongType}
+                    )
+                ){navBackStackEntry->
+                    val serviceId = navBackStackEntry.arguments?.getInt(FINISH_PICK_SERVICE_ID_KEY)
+                    val pickedDate = navBackStackEntry.arguments?.getLong(FINISH_PICK_PICKED_DATE_KEY)
+                    val viewModel = getViewModel<FinishViewModel>(parameters = {
+                        parametersOf(serviceId,pickedDate)
+                    })
+                    FinishScreenRoute(viewModel = viewModel)
                 }
 
             }

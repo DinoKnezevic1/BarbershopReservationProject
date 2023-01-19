@@ -14,7 +14,7 @@ val dataModule = module {
             timeSlotDao = get(),
             timeSlotService = get(),
             bgDispatcher = Dispatchers.IO,
-            dbFirebase = get()
+            dbFirebase = get(),
         )
     }
 }

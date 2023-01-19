@@ -1,6 +1,7 @@
 package com.dinoknezevic.barbershopreservation.ui.history
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,28 +25,32 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dinoknezevic.barbershopreservation.R
-import com.dinoknezevic.barbershopreservation.mock.BarberMock
+import com.dinoknezevic.barbershopreservation.navigation.NavigationItem
 import com.dinoknezevic.barbershopreservation.ui.component.ReservationItem
 import com.dinoknezevic.barbershopreservation.ui.component.ReservationItemViewState
-import com.dinoknezevic.barbershopreservation.ui.history.mapper.HistoryScreenMapper
-import com.dinoknezevic.barbershopreservation.ui.history.mapper.HistoryScreenMapperImpl
 import com.dinoknezevic.barbershopreservation.ui.theme.BackgroundDarkViolet
 import com.dinoknezevic.barbershopreservation.ui.theme.DarkGrey200
 import com.dinoknezevic.barbershopreservation.ui.theme.spacing
+import java.time.Instant
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 const val NUMBER_OF_COLUMNS = 1
-private val historyScreenMapper: HistoryScreenMapper = HistoryScreenMapperImpl()
-
-val historyScreenViewState = historyScreenMapper.toHistoryViewState(BarberMock.getHistory())
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HistoryRoute(
     viewModel: HistoryViewModel
-){
-    var historyViewState by remember { mutableStateOf(historyScreenViewState) }
-
-    HistoryScreen(historyViewState = historyViewState)
+) {
+    val historyViewState: HistoryViewState by viewModel.historyViewState.collectAsState()
+    //var historyViewState by remember { mutableStateOf(historyScreenViewState) }
+    HistoryScreen(
+        historyViewState = historyViewState,
+        onClick = {
+            viewModel.cancelReservation(it)
+            Log.d("timeSlotId", it.toString() + "timeSlotId/n")
+        }
+    )
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -53,6 +58,7 @@ fun HistoryRoute(
 fun HistoryScreen(
     historyViewState: HistoryViewState,
     modifier: Modifier = Modifier.background(BackgroundDarkViolet),
+    onClick: (Int) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(NUMBER_OF_COLUMNS),
@@ -73,122 +79,27 @@ fun HistoryScreen(
                     .size(180.dp)
             )
         }
-        item {
-            HistoryLabels()
-        }
-        items(historyViewState.services) { service ->
+        items(
+            historyViewState.services,
+            key = { timeSlot -> timeSlot.timeSlotId }
+        ) { service ->
+            val instant = Instant.ofEpochMilli(service.date)
+            val zonedDateTime = ZonedDateTime.ofInstant(instant, ZoneId.systemDefault())
+            val localDate = zonedDateTime.toLocalDate()
             val reservationViewState = ReservationItemViewState(
+                service.timeSlotId,
                 service.name,
                 service.startTime,
                 service.endTime,
-                service.reservationDate
+                localDate
             )
             ReservationItem(
                 reservationItemViewState = reservationViewState,
+                onClick = {
+                    onClick(reservationViewState.id)
+                }
             )
         }
-    }
-}
-
-@Composable
-fun HistoryLabels(
-    modifier: Modifier = Modifier,
-) {
-    var labelState by remember { mutableStateOf(true) }
-    Column {
-        Row(
-            horizontalArrangement = Arrangement.SpaceAround,
-            modifier = modifier
-                .padding(horizontal = MaterialTheme.spacing.large)
-                .fillMaxWidth()
-        ) {
-            Box(
-                modifier = modifier
-                    .clickable(onClick = { labelState = true })
-                    .weight(1f)
-            ) {
-                if (labelState) {
-                    Column(
-                        modifier = modifier
-                            .padding(bottom = MaterialTheme.spacing.extraSmall)
-                            .width(intrinsicSize = IntrinsicSize.Max)
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.upcoming),
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        )
-                        Spacer(
-                            modifier = Modifier
-                                .size(6.dp)
-                        )
-                        Divider(
-                            color = Color.White,
-                            thickness = MaterialTheme.spacing.extraSmall,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        )
-                    }
-                } else {
-                    Text(
-                        text = stringResource(id = R.string.upcoming),
-                        color = DarkGrey200,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp,
-                    )
-                }
-            }
-            Box(
-                modifier = modifier
-                    .clickable(onClick = { labelState = false })
-                    .weight(1f)
-            ) {
-                if (!labelState) {
-                    Column(
-                        modifier = modifier
-                            .padding(bottom = MaterialTheme.spacing.extraSmall)
-                            .width(intrinsicSize = IntrinsicSize.Max)
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.previous),
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        )
-                        Spacer(
-                            modifier = Modifier
-                                .size(4.dp)
-                        )
-                        Divider(
-                            color = Color.White,
-                            thickness = MaterialTheme.spacing.extraSmall,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        )
-                    }
-                } else {
-                    Text(
-                        text = stringResource(id = R.string.previous),
-                        color = DarkGrey200,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp,
-                    )
-                }
-            }
-
-        }
-        Divider(
-            color = Color.White,
-            thickness = 2.dp,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = MaterialTheme.spacing.large)
-        )
     }
 }
 
@@ -198,5 +109,5 @@ fun HistoryLabels(
 private fun HistoryScreenPreview(
 
 ) {
-    HistoryScreen(historyScreenViewState)
+    //HistoryScreen(historyScreenViewState)
 }

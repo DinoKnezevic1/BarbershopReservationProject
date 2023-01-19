@@ -82,50 +82,6 @@ fun ReservationsScreen(
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun DatePickerPopup(
-
-) {
-    val dateDialogState = rememberMaterialDialogState()
-    var pickedDate by remember { mutableStateOf(LocalDate.now()) }
-    val formattedDate by remember {
-        derivedStateOf {
-            DateTimeFormatter
-                .ofPattern("MM dd yyyy")
-                .format(pickedDate)
-        }
-    }
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        //not needed only need dateDialogState.show inside onClick for item
-        Button(onClick = {
-            dateDialogState.show()
-        }) {
-            Text(text = "Pick date")
-        }
-        Text(text = formattedDate)
-    }
-    MaterialDialog(
-        dialogState = dateDialogState,
-        buttons = {
-            positiveButton(text = "Ok") { }
-            negativeButton(text = "Cancel")
-        }
-    ) {
-        datepicker(
-            initialDate = LocalDate.now(),
-            title = "Pick a date",
-        ) {
-            pickedDate = it
-        }
-    }
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
-@Composable
 fun BarberServices(
     modifier: Modifier,
     barberServicesViewState: ReservationsScreenViewState,

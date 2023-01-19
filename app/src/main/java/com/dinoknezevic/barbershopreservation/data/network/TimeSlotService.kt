@@ -12,6 +12,7 @@ interface TimeSlotService {
 
     suspend fun insertTimeSlot(timeSlot: TimeSlot)//maybe java.utill class(firestore compatibility)
 
+    suspend fun fetchUserTimeSlots(userId: String): TimeSlotResponse
     //suspend fun selectTimeSlot(timeslotId: Int,reservationDetails: ReservationDetails)
 
 }

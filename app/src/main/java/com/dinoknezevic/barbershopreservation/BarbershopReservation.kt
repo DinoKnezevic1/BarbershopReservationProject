@@ -5,6 +5,7 @@ import android.util.Log
 import com.dinoknezevic.barbershopreservation.data.di.dataModule
 import com.dinoknezevic.barbershopreservation.data.di.databaseModule
 import com.dinoknezevic.barbershopreservation.data.di.networkModule
+import com.dinoknezevic.barbershopreservation.ui.finish.di.finishModule
 import com.dinoknezevic.barbershopreservation.ui.history.di.historyModule
 import com.dinoknezevic.barbershopreservation.ui.pick.di.pickModule
 import com.dinoknezevic.barbershopreservation.ui.reservation.di.reservationModule
@@ -23,7 +24,8 @@ class BarbershopReservation : Application() {
                 dataModule,
                 historyModule,
                 reservationModule,
-                pickModule
+                pickModule,
+                finishModule
             )
         }
 

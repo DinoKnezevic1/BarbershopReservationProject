@@ -14,12 +14,12 @@ import java.time.format.DateTimeFormatter
 
 object BarberMock {
     @RequiresApi(Build.VERSION_CODES.O)
-    val formatter = DateTimeFormatter.ofPattern("HH:mm");
+    val formatter = DateTimeFormatter.ofPattern("HH:mm")
     @RequiresApi(Build.VERSION_CODES.O)
     fun getTimeSlotsMocked():List<TimeSlot> = listOf(
         TimeSlot(
             timeSlotId = 1,
-            userId = 1,
+            userId ="-1",
             date = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
             isAvailable = true,
             startTime = LocalTime.now().format(formatter),
@@ -28,7 +28,7 @@ object BarberMock {
         ),
         TimeSlot(
             timeSlotId = 2,
-            userId = 1,
+            userId = "-1",
             date = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
             isAvailable = true,
             startTime = LocalTime.now().plusMinutes(45).format(formatter),
@@ -41,7 +41,7 @@ object BarberMock {
     fun getTimeSlotsForCalculations():List<TimeSlot> = listOf(
         TimeSlot(
             timeSlotId = -1,
-            userId = -1,
+            userId = "-1",
             date = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
             isAvailable = true,
             startTime = LocalTime.of(8,0).format(formatter),
@@ -50,7 +50,7 @@ object BarberMock {
         ),
         TimeSlot(
             timeSlotId = -2,
-            userId = -1,
+            userId = "-1",
             date = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
             isAvailable = true,
             startTime = LocalTime.of(8,45).format(formatter),
@@ -59,7 +59,7 @@ object BarberMock {
         ),
         TimeSlot(
             timeSlotId = -3,
-            userId = -1,
+            userId = "-1",
             date = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
             isAvailable = true,
             startTime = LocalTime.of(9,30).format(formatter),
@@ -68,7 +68,7 @@ object BarberMock {
         ),
         TimeSlot(
             timeSlotId = -4,
-            userId = -1,
+            userId = "-1",
             date = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
             isAvailable = true,
             startTime = LocalTime.of(10,15).format(formatter),
@@ -77,7 +77,7 @@ object BarberMock {
         ),
         TimeSlot(
             timeSlotId = -5,
-            userId = -1,
+            userId = "-1",
             date = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
             isAvailable = true,
             startTime = LocalTime.of(11,0).format(formatter),
@@ -86,7 +86,7 @@ object BarberMock {
         ),
         TimeSlot(
             timeSlotId = -6,
-            userId = -1,
+            userId = "-1",
             date = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
             isAvailable = true,
             startTime = LocalTime.of(11,45).format(formatter),
@@ -95,7 +95,7 @@ object BarberMock {
         ),
         TimeSlot(
             timeSlotId = -7,
-            userId = -1,
+            userId = "-1",
             date = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
             isAvailable = true,
             startTime = LocalTime.of(12,30).format(formatter),
@@ -104,7 +104,7 @@ object BarberMock {
         ),
         TimeSlot(
             timeSlotId = -8,
-            userId = -1,
+            userId = "-1",
             date = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
             isAvailable = true,
             startTime = LocalTime.of(13,15).format(formatter),
@@ -112,7 +112,7 @@ object BarberMock {
             name ="",
         ),TimeSlot(
             timeSlotId = -9,
-            userId = -1,
+            userId = "-1",
             date = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
             isAvailable = true,
             startTime = LocalTime.of(14,0).format(formatter),
@@ -121,7 +121,7 @@ object BarberMock {
         ),
         TimeSlot(
             timeSlotId = -10,
-            userId = -1,
+            userId = "-1",
             date = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
             isAvailable = true,
             startTime = LocalTime.of(15,45).format(formatter),
@@ -130,7 +130,7 @@ object BarberMock {
         ),
         TimeSlot(
             timeSlotId = -11,
-            userId = -1,
+            userId = "-1",
             date = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
             isAvailable = true,
             startTime = LocalTime.of(15,30).format(formatter),
@@ -139,7 +139,7 @@ object BarberMock {
         ),
         TimeSlot(
             timeSlotId = -12,
-            userId = -1,
+            userId = "-1",
             date = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
             isAvailable = true,
             startTime = LocalTime.of(16,15).format(formatter),

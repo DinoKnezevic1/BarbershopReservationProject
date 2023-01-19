@@ -13,6 +13,12 @@ const val DATE_TIME_PICK_ROUTE = "DateTimePick"
 const val PICK_SERVICE_ID_KEY = "serviceId"
 const val DATE_TIME_PICK_ROUTE_WITH_PARAMS = "$DATE_TIME_PICK_ROUTE/{$PICK_SERVICE_ID_KEY}"
 
+const val FINISH_ROUTE = "Finish"
+const val FINISH_PICK_SERVICE_ID_KEY = "finishServiceId"
+const val FINISH_PICK_PICKED_DATE_KEY = "finishPickedDate"
+const val FINISH_ROUTE_WITH_PARAMS =
+    "$FINISH_ROUTE/{$FINISH_PICK_SERVICE_ID_KEY}/{$FINISH_PICK_PICKED_DATE_KEY}"
+
 sealed class NavigationItem(
     override val route: String,
     val selectedIconId: Int,
@@ -37,17 +43,16 @@ sealed class NavigationItem(
         BarbershopReservationDestination(SERVICE_RESERVATION_ROUTE_WITH_PARAMS) {
         fun createNavigationRoute(serviceId: Int): String = "$RESERVATIONS_ROUTE/$serviceId"
     }
+
     object DateTimePickDestination :
         BarbershopReservationDestination(DATE_TIME_PICK_ROUTE_WITH_PARAMS) {
         fun createNavigationRoute(serviceId: Int): String = "$DATE_TIME_PICK_ROUTE/$serviceId"
     }
-/*
-    object ReservationsDestination:NavigationItem(
-        route = RESERVATIONS_ROUTE,
-        selectedIconId = R.drawable.ic_history_filled,
-        unselectedIconId = R.drawable.ic_history_outlined,
-        labelId = R.string.history,
-    )
- */
+
+    object FinishDestination :
+        BarbershopReservationDestination(FINISH_ROUTE_WITH_PARAMS) {
+        fun createNavigationRoute(serviceId: Int, pickedDate: Long): String =
+            "$FINISH_ROUTE/$serviceId/$pickedDate"
+    }
 
 }

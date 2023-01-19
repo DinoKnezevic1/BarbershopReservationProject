@@ -1,9 +1,16 @@
 package com.dinoknezevic.barbershopreservation.ui.history
 
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.dinoknezevic.barbershopreservation.data.repository.BarbershopRepository
 import com.dinoknezevic.barbershopreservation.ui.history.mapper.HistoryScreenMapper
 import com.dinoknezevic.barbershopreservation.ui.reservation.mapper.ReservationsScreenMapper
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 
 class HistoryViewModel(
@@ -11,20 +18,24 @@ class HistoryViewModel(
     private val historyMapper: HistoryScreenMapper,
 ) : ViewModel() {
 
-    /*
-    val favoritesViewState: StateFlow<FavoritesViewState> =
-        movieRepository.favoriteMovies()
-            .map(favoritesMapper::toFavoritesViewState)
-            .stateIn(
+    val userId = -1
+
+    val historyViewState: StateFlow<HistoryViewState> =
+        barbershopRepository.timeSlotsHistory(userId.toString())
+            .map {
+                historyMapper.toHistoryViewState(it)
+            }.stateIn(
                 viewModelScope,
                 SharingStarted.Eagerly,
-                FavoritesViewState(listOf())
+                HistoryViewState(listOf())
             )
-
-    fun toggleFavorite(movieId: Int) {
+    fun cancelReservation(timeSlotId:Int){
         viewModelScope.launch {
-            movieRepository.toggleFavorite(movieId)
+            barbershopRepository.deleteTimeSlot(timeSlotId)
+            historyViewState.value.services.dropWhile {
+                it.timeSlotId==timeSlotId
+            }
         }
     }
-    */
+
 }

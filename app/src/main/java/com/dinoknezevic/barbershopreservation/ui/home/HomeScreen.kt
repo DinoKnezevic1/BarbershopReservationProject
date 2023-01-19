@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.sp
 import com.dinoknezevic.barbershopreservation.R
 import com.dinoknezevic.barbershopreservation.navigation.NavigationItem
 import com.dinoknezevic.barbershopreservation.ui.theme.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestore.getInstance
 import com.google.firebase.firestore.ktx.firestore
@@ -32,6 +34,7 @@ const val SERVICE_ID = 9999
 fun HomeRoute(
     onNavigateToReservations: (String) -> Unit
 ) {
+    //Firebase.auth.signInAnonymously()
     HomeScreen(
         onNavigateToReservations = onNavigateToReservations
     )

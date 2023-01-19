@@ -3,6 +3,6 @@ package com.dinoknezevic.barbershopreservation.ui.pick
 import com.dinoknezevic.barbershopreservation.model.TimeSlot
 
 data class PickScreenViewState(
-    val timeSlots:List<TimeSlot>,
+    //var timeSlots:List<TimeSlot>,//nece trebati
     val serviceId:Int
 )

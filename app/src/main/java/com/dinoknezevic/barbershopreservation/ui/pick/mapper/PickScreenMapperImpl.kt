@@ -4,9 +4,12 @@ import com.dinoknezevic.barbershopreservation.model.TimeSlot
 import com.dinoknezevic.barbershopreservation.ui.pick.PickScreenViewState
 
 class PickScreenMapperImpl:PickScreenMapper {
-    override fun toPickScreenViewState(timeSlots: List<TimeSlot>,serviceId:Int): PickScreenViewState {
+    override fun toPickScreenViewState(
+        //timeSlots: List<TimeSlot>,
+        serviceId:Int
+    ): PickScreenViewState {
         return PickScreenViewState(
-            timeSlots.map {
+            /*timeSlots.map {
                 TimeSlot(
                     timeSlotId = it.timeSlotId,
                     userId = it.userId!!,
@@ -16,7 +19,8 @@ class PickScreenMapperImpl:PickScreenMapper {
                     endTime = it.endTime,
                     name =it.name,
                 )
-            },serviceId=serviceId
+            },*/
+            serviceId=serviceId
         )
     }
 }

@@ -1,11 +1,12 @@
 package com.dinoknezevic.barbershopreservation.ui.history
 
 import com.dinoknezevic.barbershopreservation.model.ReservationDetails
+import com.dinoknezevic.barbershopreservation.model.TimeSlot
 import java.time.LocalDate
 import java.time.LocalTime
 
 data class HistoryViewState(
-    val services: List<ReservationDetails>,
+    var services: List<TimeSlot>,
     //val upcomingLabelActive: MutableState<Boolean>
 )
 

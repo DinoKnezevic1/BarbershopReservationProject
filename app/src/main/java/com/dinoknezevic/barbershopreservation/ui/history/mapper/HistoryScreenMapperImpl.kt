@@ -1,22 +1,22 @@
 package com.dinoknezevic.barbershopreservation.ui.history.mapper
 
-import com.dinoknezevic.barbershopreservation.model.ReservationDetails
+import com.dinoknezevic.barbershopreservation.model.TimeSlot
 import com.dinoknezevic.barbershopreservation.ui.history.HistoryViewState
 
 class HistoryScreenMapperImpl : HistoryScreenMapper {
-    override fun toHistoryViewState(reservations: List<ReservationDetails>): HistoryViewState {
+    override fun toHistoryViewState(reservations: List<TimeSlot>): HistoryViewState {
         return HistoryViewState(
             reservations.map {
-                ReservationDetails(
-                    reservationId=it.reservationId,
+                TimeSlot(
+                    timeSlotId=it.timeSlotId,
                     userId = it.userId,
                     name = it.name,
+                    isAvailable = it.isAvailable,
                     startTime = it.startTime,
                     endTime = it.endTime,
-                    reservationDate = it.reservationDate
+                    date = it.date
                 )
             }
-            //upcomingLabelActive = Boolean.
         )
     }
 }

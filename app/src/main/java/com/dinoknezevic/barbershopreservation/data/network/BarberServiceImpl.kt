@@ -25,7 +25,14 @@ class BarberServiceImpl(
             val name = document.get("name") as String
             val description = document.get("description") as String
             val price = document.get("price") as String
-            val service = Service(serviceId.toInt(), ServiceType.valueOf(type), name, description, price)
+            val service =
+                Service(
+                    serviceId.toInt(),
+                    ServiceType.valueOf(type),
+                    name,
+                    description,
+                    price
+                )
             servicesList.add(service)
         }
         return ServiceResponse(servicesList)

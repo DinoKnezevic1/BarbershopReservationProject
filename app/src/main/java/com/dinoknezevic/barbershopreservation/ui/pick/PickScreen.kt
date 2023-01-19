@@ -1,19 +1,20 @@
 package com.dinoknezevic.barbershopreservation.ui.pick
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.dinoknezevic.barbershopreservation.mock.BarberMock
 import com.dinoknezevic.barbershopreservation.model.TimeSlot
 import com.dinoknezevic.barbershopreservation.ui.theme.spacing
@@ -22,10 +23,12 @@ import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.lifecycle.Observer
+import com.dinoknezevic.barbershopreservation.navigation.NavigationItem
 import com.dinoknezevic.barbershopreservation.ui.component.TimeSlotCell
+import org.koin.androidx.compose.koinViewModel
 import java.time.ZoneId
+import kotlin.streams.toList
 
 const val NUMBER_OF_COLUMNS = 1
 
@@ -33,21 +36,19 @@ const val NUMBER_OF_COLUMNS = 1
 @Composable
 fun PickScreenRoute(
     viewModel: PickViewModel,
+    onNavigateToFinish: (String) -> Unit
 ) {
     //val reservationsScreenViewState: ReservationsScreenViewState by viewModel.reservationsScreenViewState.collectAsState()
-    val pickViewState: PickScreenViewState by viewModel.pickScreenViewState.collectAsState()
-    //val pickScreenViewState
-    val timeslotsForCalculations = BarberMock.getTimeSlotsForCalculations()
+    val pickViewState = viewModel.pickScreenViewState
+    //val pickViewState: PickScreenViewState by viewModel.pickScreenViewState.collectAsState()
+    //val timeslotsForCalculations = BarberMock.getTimeSlotsForCalculations()
     PickScreen(
         //pickScreenViewState = PickScreenViewState(listOf(), viewModel.serviceId),
         pickScreenViewState = pickViewState,
         onCellClick = {
-            viewModel.createReservation(it)
+            //viewModel.createReservation(it)
         },
-        onDateSelected = {
-            viewModel.fetchTimeSlotsForCurrentDate(it)
-            viewModel.selectedDate=it
-        }
+        onDateSelected = onNavigateToFinish
     )
 }
 
@@ -56,11 +57,10 @@ fun PickScreenRoute(
 fun PickScreen(
     pickScreenViewState: PickScreenViewState,
     onCellClick: (TimeSlot) -> Unit,
-    onDateSelected: (Long) -> Unit,
+    onDateSelected: (String) -> Unit,
+    //onNavigateToFinish:(String)->Unit,
     modifier: Modifier = Modifier
 ) {
-    //Text(text = pickScreenViewState.testText)
-
     val dateDialogState = rememberMaterialDialogState()
     var pickedDate = LocalDate.now()
     val formattedDate by remember {
@@ -76,10 +76,8 @@ fun PickScreen(
         horizontalArrangement = Arrangement.Center,
         modifier = modifier
             .padding(MaterialTheme.spacing.large),
-        state = rememberLazyGridState()
     ) {
         item {
-            //DatePickerPopup(pickerViewState = PickerViewState(pickScreenViewState.pickedDate))
             Column(
                 modifier = Modifier
                     .fillMaxSize(),
@@ -101,9 +99,11 @@ fun PickScreen(
                     positiveButton(text = "Ok",
                         onClick = {
                             onDateSelected(
-                                pickedDate.atStartOfDay(
-                                    ZoneId.systemDefault()
-                                ).toInstant().toEpochMilli()
+                                NavigationItem.FinishDestination.createNavigationRoute(
+                                    pickScreenViewState.serviceId, pickedDate.atStartOfDay(
+                                        ZoneId.systemDefault()
+                                    ).toInstant().toEpochMilli()
+                                )
                             )
                         }
                     )
@@ -118,8 +118,11 @@ fun PickScreen(
                 }
             }
         }
+        //this goes to finishScreen
+        /*
         items(
-            pickScreenViewState.timeSlots
+            items= pickScreenViewState.timeSlots,
+            key = { timeSlot -> timeSlot.timeSlotId}
         ) { timeSlot ->
             val timeSlotCellViewState = TimeSlot(
                 timeSlotId = timeSlot.timeSlotId,
@@ -152,6 +155,8 @@ fun PickScreen(
                 onCellClick(pickedTimeSlotViewState)//predaje se viewState
             })
         }
+
+         */
     }
 
 }
